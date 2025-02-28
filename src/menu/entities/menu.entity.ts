@@ -3,24 +3,33 @@ export enum Status {
     TRUE = 1,
     FALSE = 0,
 }
-class User {
+export class Menu {
     @PrimaryGeneratedColumn()
     id: number
 
     @Column("varchar", { length: 200 })
-    username: string
+    name: string
 
     @Column("varchar", { length: 100 })
-    email : string
+    route : string
 
-    @Column("varchar", { length: 200 })
-    password: string
+    @Column("int", { default: 0 })
+    sort: number
+
+    @Column("int", { width: 5 })
+    parent: number
+
+
+
 
     @Column("int", { width: 5 }) 
     created_by: number
 
     @Column("int", { width: 5 }) 
     updated_by: number
+
+    @Column("int", { width: 5 }) 
+    deleted_by: number
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     created_at: Date

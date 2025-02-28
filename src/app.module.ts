@@ -6,8 +6,14 @@ import { CacheModule, CacheInterceptor } from '@nestjs/cache-manager';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
+import { LayerModule } from './layer/layer.module';
+import { MenuModule } from './menu/menu.module';
+import { MenuPermissionModule } from './menu-permission/menu-permission.module';
+import { MenuRouteModule } from './menu-route/menu-route.module';
+import { RoleModule } from './role/role.module';
+import { UserRoleModule } from './user-role/user-role.module';
 @Module({
-  imports: [UsersModule]
+  imports: [UsersModule, LayerModule, MenuModule, MenuPermissionModule, MenuRouteModule, RoleModule, UserRoleModule]
 })
 export class AppModule {
   static async register() {
@@ -26,9 +32,9 @@ export class AppModule {
           type: 'mysql',
           host: 'localhost',
           port: 3306,
-          username: 'root',
-          password: '',
-          database: 'survey-project',
+          username: 'lahostco_survey',
+          password: '))}p.6-)E?Y[',
+          database: 'lahostco_survey',
           entities: [__dirname + '/**/*.entity{.ts,.js}'],
           synchronize: true,
         })
