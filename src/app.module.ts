@@ -30,12 +30,13 @@ export class AppModule {
         }),
         TypeOrmModule.forRoot({
           type: 'mysql',
-          host: 'localhost',
+          host: 'database-1.c1ggukwqgrnh.ap-south-1.rds.amazonaws.com',
           port: 3306,
-          username: 'lahostco_survey',
-          password: '))}p.6-)E?Y[',
-          database: 'lahostco_survey',
+          username: 'admin',
+          password: '##Roy1019876*',
+          database: 'nestjs_db',
           entities: [__dirname + '/**/*.entity{.ts,.js}'],
+          autoLoadEntities: true,
           synchronize: true,
         })
       ],
