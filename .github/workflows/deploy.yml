@@ -35,11 +35,11 @@ jobs:
             sudo yum install -y git
 
             # Navigate to project directory or clone if missing
-            if [ ! -d "/home/${{ secrets.AWS_EC2_USER }}/nestjs-app/.git" ]; then
-              git clone --depth 1 --branch main https://github.com/RakeshRoy1995/survey-ai-project-backend.git /home/${{ secrets.AWS_EC2_USER }}/nestjs-app
+            if [ ! -d "/home/${{ secrets.AWS_EC2_USER }}/survey-ai-project-backend/.git" ]; then
+              git clone --depth 1 --branch main https://github.com/RakeshRoy1995/survey-ai-project-backend.git /home/${{ secrets.AWS_EC2_USER }}/survey-ai-project-backend
             fi
 
-            cd /home/${{ secrets.AWS_EC2_USER }}/nestjs-app
+            cd /home/${{ secrets.AWS_EC2_USER }}/survey-ai-project-backend
 
             # Fetch latest code
             git fetch origin main
@@ -60,4 +60,4 @@ jobs:
               npm install -g pm2
             fi
 
-            pm2 restart nestjs-app || pm2 start dist/main.js --name nestjs-app
+            pm2 restart survey-ai-project || pm2 start dist/main.js --name survey-ai-project
