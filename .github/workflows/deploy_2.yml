@@ -36,7 +36,7 @@ jobs:
 
             # Navigate to project directory or clone if missing
             if [ ! -d "/home/${{ secrets.AWS_EC2_USER }}/nestjs-app/.git" ]; then
-              git clone https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO.git /home/${{ secrets.AWS_EC2_USER }}/nestjs-app
+              git clone https://github.com/RakeshRoy1995/survey-ai-project-backend.git /home/${{ secrets.AWS_EC2_USER }}/nestjs-app
             fi
 
             cd /home/${{ secrets.AWS_EC2_USER }}/nestjs-app
