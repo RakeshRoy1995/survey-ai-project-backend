@@ -60,4 +60,4 @@ jobs:
               npm install -g pm2
             fi
 
-            pm2 restart survey-ai-project || pm2 start dist/main.js --name survey-ai-project
+            pm2 restart nestjs-app || pm2 start dist/main.js --name nestjs-app
