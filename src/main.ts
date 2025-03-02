@@ -26,7 +26,7 @@ async function bootstrap() {
   } else {
     const appModule = await AppModule.register();
     const app = await NestFactory.create(appModule);
-    await app.listen(process.env.PORT ?? 3000);
+    await app.listen(3000, '0.0.0.0');
     Logger.log(`Worker ${process.pid} started`);
   }
 }

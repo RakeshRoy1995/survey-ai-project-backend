@@ -12,8 +12,20 @@ import { MenuPermissionModule } from './menu-permission/menu-permission.module';
 import { MenuRouteModule } from './menu-route/menu-route.module';
 import { RoleModule } from './role/role.module';
 import { UserRoleModule } from './user-role/user-role.module';
+import { AuthModule } from './auth/auth.module';
+import { JwtService } from './jwt/jwt.service';
 @Module({
-  imports: [UsersModule, LayerModule, MenuModule, MenuPermissionModule, MenuRouteModule, RoleModule, UserRoleModule]
+  imports: [
+    UsersModule,
+    LayerModule,
+    MenuModule,
+    MenuPermissionModule,
+    MenuRouteModule,
+    RoleModule,
+    UserRoleModule,
+    AuthModule,
+  ],
+  providers: [JwtService],
 })
 export class AppModule {
   static async register() {
@@ -21,6 +33,15 @@ export class AppModule {
     return {
       module: AppModule,
       imports: [
+        UsersModule,
+        LayerModule,
+        MenuModule,
+        MenuPermissionModule,
+        MenuRouteModule,
+        RoleModule,
+        UserRoleModule,
+        AuthModule,
+
         ConfigModule.forRoot({
           isGlobal: true,
         }),
@@ -38,7 +59,7 @@ export class AppModule {
           entities: [__dirname + '/**/*.entity{.ts,.js}'],
           autoLoadEntities: true,
           synchronize: true,
-        })
+        }),
       ],
       controllers: [AppController],
       providers: [
@@ -47,6 +68,7 @@ export class AppModule {
           useClass: CacheInterceptor,
         },
         AppService,
+        JwtService,
       ],
     };
   }
