@@ -13,6 +13,6 @@ export class AppService {
 
     const value = await this.cacheManager.get('key') as string;
 
-    return value ?? 'Hello World!';
+    return 'Hello World!';
   }
 }
