@@ -1,0 +1,63 @@
+name: Deploy NestJS to AWS EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the project
+        run: npm run build
+
+      - name: Deploy to Amazon Linux EC2
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.AWS_EC2_HOST }}
+          username: ${{ secrets.AWS_EC2_USER }}
+          key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
+          script: |
+            # Ensure git is installed
+            sudo yum install -y git
+
+            # Navigate to project directory or clone if missing
+            if [ ! -d "/home/${{ secrets.AWS_EC2_USER }}/nestjs-app/.git" ]; then
+              git clone https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO.git /home/${{ secrets.AWS_EC2_USER }}/nestjs-app
+            fi
+
+            cd /home/${{ secrets.AWS_EC2_USER }}/nestjs-app
+
+            # Fetch latest code
+            git fetch origin main
+            git reset --hard origin/main
+
+            # Ensure Node.js is installed
+            if ! command -v node &> /dev/null; then
+              curl -fsSL https://rpm.nodesource.com/setup_18.x | sudo bash -
+              sudo yum install -y nodejs
+            fi
+
+            # Install dependencies and build
+            npm install
+            npm run build
+
+            # Ensure PM2 is installed and restart the process
+            if ! command -v pm2 &> /dev/null; then
+              npm install -g pm2
+            fi
+
+            pm2 restart all || pm2 start dist/main.js --name nestjs-app
