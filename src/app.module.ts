@@ -14,6 +14,8 @@ import { RoleModule } from './role/role.module';
 import { UserRoleModule } from './user-role/user-role.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtService } from './jwt/jwt.service';
+import { PickService } from './pick/pick.service';
+import { CommonModule } from './common/common.module';
 @Module({
   imports: [
     UsersModule,
@@ -24,8 +26,9 @@ import { JwtService } from './jwt/jwt.service';
     RoleModule,
     UserRoleModule,
     AuthModule,
+    CommonModule,
   ],
-  providers: [JwtService],
+  providers: [JwtService, PickService],
 })
 export class AppModule {
   static async register() {
@@ -41,6 +44,7 @@ export class AppModule {
         RoleModule,
         UserRoleModule,
         AuthModule,
+        CommonModule,
 
         ConfigModule.forRoot({
           isGlobal: true,
@@ -51,11 +55,11 @@ export class AppModule {
         }),
         TypeOrmModule.forRoot({
           type: 'mysql',
-          host: 'database-1.c1ggukwqgrnh.ap-south-1.rds.amazonaws.com',
+          host: 'localhost',
           port: 3306,
-          username: 'admin',
-          password: '##Roy1019876*',
-          database: 'nestjs_db',
+          username: 'root',
+          password: '',
+          database: 'survey-project',
           entities: [__dirname + '/**/*.entity{.ts,.js}'],
           autoLoadEntities: true,
           synchronize: true,
@@ -69,6 +73,7 @@ export class AppModule {
         },
         AppService,
         JwtService,
+        PickService,
       ],
     };
   }

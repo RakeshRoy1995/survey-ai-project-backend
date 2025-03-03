@@ -3,23 +3,24 @@ export enum Status {
     TRUE = 1,
     FALSE = 0,
 }
-class User {
+@Entity({ name: 'users' })
+export class User {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column("varchar", { length: 200 })
+    @Column({ type: 'varchar', length: 255 })
     username: string
 
-    @Column("varchar", { length: 100 })
+    @Column({ type: "varchar",  length: 233 , unique: true})
     email : string
 
-    @Column("varchar", { length: 200 })
+    @Column({ type: 'varchar', length: 255 })
     password: string
 
-    @Column("int", { width: 5 }) 
+    @Column("int", { width: 5 , nullable: true}) 
     created_by: number
 
-    @Column("int", { width: 5 }) 
+    @Column("int", { width: 5 , nullable: true}) 
     updated_by: number
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
