@@ -1,14 +1,28 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Request 
+} from '@nestjs/common';
 import { MenuService } from './menu.service';
 import { CreateMenuDto } from './dto/create-menu.dto';
 import { UpdateMenuDto } from './dto/update-menu.dto';
+import { JwtAuthGuard } from '../jwt/jwt-auth.guard';
 
 @Controller('menu')
+@UseGuards(JwtAuthGuard)
 export class MenuController {
+  
   constructor(private readonly menuService: MenuService) {}
 
   @Post()
-  create(@Body() createMenuDto: CreateMenuDto) {
+  create(@Body() createMenuDto: CreateMenuDto, @Request() req: any) {
+    // console.log(`req`, req.user);
     return this.menuService.create(createMenuDto);
   }
 

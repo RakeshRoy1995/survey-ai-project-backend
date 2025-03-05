@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
 import cluster from 'node:cluster'; // ✅ Correct import
 import os from 'node:os';
+import { JwtExpiredExceptionFilter } from './jwt/jwt-exception.filter';
 
 async function bootstrap() {
   // Check if `cluster` is undefined (for debugging)
@@ -26,6 +27,7 @@ async function bootstrap() {
   } else {
     const appModule = await AppModule.register();
     const app = await NestFactory.create(appModule);
+    app.useGlobalFilters(new JwtExpiredExceptionFilter());
     await app.listen(3000, '0.0.0.0');
     Logger.log(`Worker ${process.pid} started`);
   }

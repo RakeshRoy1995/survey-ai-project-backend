@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-
+import * as jwt from 'jsonwebtoken'
 @Injectable()
 export class AuthService {
   constructor(private jwtService: JwtService) {}
@@ -14,8 +14,15 @@ export class AuthService {
     return bcrypt.compare(password, hashedPassword);
   }
 
-  async generateToken(user: any) {
+  generateToken(user: any) {
+    
     const payload = { sub: user.id, username: user.username };
-    return this.jwtService.sign(payload)
+    if (!process.env.JWT_SECRET) {
+      throw new Error('JWT_SECRET is not defined');
+    }
+    return jwt.sign(payload, process.env.JWT_SECRET, {
+      algorithm: 'HS256',
+      expiresIn: process.env.JWT_EXPIRATION,
+    });
   }
 }

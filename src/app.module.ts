@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
@@ -16,6 +16,7 @@ import { AuthModule } from './auth/auth.module';
 import { JwtService } from './jwt/jwt.service';
 import { PickService } from './pick/pick.service';
 import { CommonModule } from './common/common.module';
+import { LogRequestMiddleware } from './log-request.middleware';
 @Module({
   imports: [
     UsersModule,
@@ -31,6 +32,12 @@ import { CommonModule } from './common/common.module';
   providers: [JwtService, PickService],
 })
 export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    // Apply middleware to specific routes or all routes
+    consumer.apply(LogRequestMiddleware).forRoutes('*');    // Use forRoutes('*') for all routes, or specify specific routes
+    
+  
+  }
   static async register() {
     // const { UsersModule } = await import('./users/users.module');
     return {
@@ -55,11 +62,18 @@ export class AppModule {
         }),
         TypeOrmModule.forRoot({
           type: 'mysql',
-          host: 'database-1.c1ggukwqgrnh.ap-south-1.rds.amazonaws.com',
+          // host: 'database-1.c1ggukwqgrnh.ap-south-1.rds.amazonaws.com',
+          // port: 3306,
+          // username: 'admin',
+          // password: '##Roy1019876*',
+          // database: 'nestjs_db',
+
+          host: 'localhost',
           port: 3306,
-          username: 'admin',
-          password: '##Roy1019876*',
-          database: 'nestjs_db',
+          username: 'root',
+          password: '',
+          database: 'survey-project',
+
           entities: [__dirname + '/**/*.entity{.ts,.js}'],
           autoLoadEntities: true,
           synchronize: true,

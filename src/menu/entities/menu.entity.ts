@@ -3,6 +3,7 @@ export enum Status {
     TRUE = 1,
     FALSE = 0,
 }
+@Entity({ name: "menus" })
 export class Menu {
     @PrimaryGeneratedColumn()
     id: number
@@ -16,11 +17,8 @@ export class Menu {
     @Column("int", { default: 0 })
     sort: number
 
-    @Column("int", { width: 5 })
+    @Column("int", { width: 5 ,  nullable: true })
     parent: number
-
-
-
 
     @Column("int", { width: 5 }) 
     created_by: number
