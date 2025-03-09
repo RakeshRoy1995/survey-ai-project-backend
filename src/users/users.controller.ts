@@ -6,12 +6,13 @@ import {
   Param,
   ParseIntPipe,
   Delete,
-  Put,
+  Patch,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { createUserDto } from './dto/create-user.dto';
 import { updateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import * as bcrypt from 'bcrypt';
 
 @Controller('users')
 export class UsersController {
@@ -32,6 +33,7 @@ export class UsersController {
   //  create a new user
   @Post()
   CreateUser(@Body() newUser: createUserDto) {
+    newUser.password = hashPassword(newUser.password);
     return this.usersService.createUser(newUser);
   }
 
@@ -42,8 +44,19 @@ export class UsersController {
   }
 
   //  update user by id
-  @Put(':id')
+  @Patch(':id')
   updateUserById(@Param('id') id: number, @Body() user: updateUserDto) {
     return this.usersService.updateUserById(Number(id), user);
   }
 }
+
+function hashPassword(password: string): string {
+  try {
+    
+    const salt = bcrypt.genSaltSync(10);
+    return bcrypt.hashSync(password, salt);
+  } catch (error) {
+    throw new Error('Error generating salt for password hashing');
+  }
+}
+

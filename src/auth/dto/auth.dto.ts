@@ -4,5 +4,6 @@ export class authDto {
   username: string;
   password: string;
   email: string;
-  token: string;
+  access_token: string;
+  token_type: string;
 }

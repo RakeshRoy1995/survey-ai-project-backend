@@ -6,7 +6,6 @@ import {
   HttpException,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { log } from 'console';
 import { UsersService } from '../users/users.service';
 import { authDto } from './dto/auth.dto';
 import { PickService } from '../pick/pick.service';
@@ -19,10 +18,9 @@ export class AuthController {
     private readonly pickService: PickService
   ) {}
 
-  @Post('login')
+  @Post('signin')
   async login(@Body() body: { username: string; password: string }) {
     // Normally, you'd validate the user against the database
-    log('body', body);
     const mockUser = {
       id: 1,
       username: body.username,
@@ -40,14 +38,17 @@ export class AuthController {
       if (!passMatch) {
         throw new HttpException('Password Mismatched', HttpStatus.NOT_FOUND);
       }
+    }else{
+      throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }
 
     const res: authDto = {
       ...found,
-      token: await this.authService.generateToken(mockUser),
+      token_type: 'Bearer',
+      access_token: await this.authService.generateToken(mockUser),
     }
 
-    return this.pickService.pick(res, ['username', 'email', 'token' , 'id' , 'status']);
+    return this.pickService.pick(res, ['username', 'email', 'access_token' , 'token_type', 'id' , 'status']);
 
   }
 }

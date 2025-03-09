@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateMenuDto } from './dto/create-menu.dto';
 import { UpdateMenuDto } from './dto/update-menu.dto';
 import { Menu } from './entities/menu.entity';
@@ -18,18 +18,37 @@ export class MenuService {
   }
 
   findAll() {
-    return `This action returns all menu`;
+    return this.menuRepository.find({});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} menu`;
+  async findOne(id: number) {
+    const data = await this.menuRepository.findOne({
+      where: { id },
+    });
+    if (!data) {
+      throw new HttpException('Data not found', HttpStatus.NOT_FOUND);
+    }
+    return data;
   }
 
-  update(id: number, updateMenuDto: UpdateMenuDto) {
-    return `This action updates a #${id} menu`;
+  async update(id: number, updateMenuDto: UpdateMenuDto) {
+    const userFound = await this.menuRepository.findOne({
+      where: { id },
+    });
+    if (!userFound) {
+      return new HttpException('Data not found', HttpStatus.NOT_FOUND);
+    }
+
+    const updateUser = Object.assign(userFound, updateMenuDto);
+    return this.menuRepository.save(updateUser);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} menu`;
+  async remove(id: number) {
+    const result = await this.menuRepository.delete({ id });
+
+    if (result.affected === 0) {
+      throw new HttpException('Data not found', HttpStatus.NOT_FOUND);
+    }
+    return result;
   }
 }
