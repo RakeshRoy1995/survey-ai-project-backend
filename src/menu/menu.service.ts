@@ -12,9 +12,8 @@ export class MenuService {
   ) {}
 
   create(createMenuDto: CreateMenuDto) {
-    return 1;
-    // const newData = this.menuRepository.create(createMenuDto);
-    // return this.menuRepository.save(newData);
+    const newData = this.menuRepository.create(createMenuDto);
+    return this.menuRepository.save(newData);
   }
 
   findAll() {
