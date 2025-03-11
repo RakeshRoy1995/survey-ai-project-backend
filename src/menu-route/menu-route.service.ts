@@ -1,26 +1,47 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateMenuRouteDto } from './dto/create-menu-route.dto';
 import { UpdateMenuRouteDto } from './dto/update-menu-route.dto';
+import { MenuRoute } from './entities/menu-route.entity';
 
 @Injectable()
 export class MenuRouteService {
-  create(createMenuRouteDto: CreateMenuRouteDto) {
-    return 'This action adds a new menuRoute';
+  constructor(
+    @InjectRepository(MenuRoute)
+    private readonly menuRouteRepository: Repository<MenuRoute>,
+  ) {}
+
+  async create(createMenuRouteDto: CreateMenuRouteDto): Promise<MenuRoute> {
+    const menuRoute = this.menuRouteRepository.create(createMenuRouteDto);
+    return this.menuRouteRepository.save(menuRoute);
   }
 
-  findAll() {
-    return `This action returns all menuRoute`;
+  async findAll(): Promise<MenuRoute[]> {
+    return this.menuRouteRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} menuRoute`;
+  async findOne(id: any): Promise<MenuRoute> {
+    const menuRoute = await this.menuRouteRepository.findOne({ where: { id } });
+    if (!menuRoute) {
+      throw new Error(`MenuRoute with id ${id} not found`);
+    }
+    return menuRoute;
   }
 
-  update(id: number, updateMenuRouteDto: UpdateMenuRouteDto) {
-    return `This action updates a #${id} menuRoute`;
+  async update(
+    id: any,
+    updateMenuRouteDto: UpdateMenuRouteDto,
+  ): Promise<MenuRoute> {
+    await this.menuRouteRepository.update(id, updateMenuRouteDto);
+    const menuRoute = await this.menuRouteRepository.findOne(id);
+    if (!menuRoute) {
+      throw new Error(`MenuRoute with id ${id} not found`);
+    }
+    return menuRoute;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} menuRoute`;
+  async remove(id: number): Promise<void> {
+    await this.menuRouteRepository.delete(id);
   }
 }

@@ -1,9 +1,10 @@
-import {  PrimaryGeneratedColumn, Column } from "typeorm"
+import {  PrimaryGeneratedColumn, Column, Entity } from "typeorm"
 
 export enum Status {
     TRUE = 1,
     FALSE = 0,
 }
+@Entity({ name: 'menu_routes' })
 export class MenuRoute {
     @PrimaryGeneratedColumn()
     id: number

@@ -11,6 +11,6 @@ export class AppService {
   async getHello(): Promise<string> {
     await this.cacheManager.set('key', 'value');
     const value = await this.cacheManager.get('key') as string;
-    return 'Hello World !!!';
+    return 'Hello World 222';
   }
 }
