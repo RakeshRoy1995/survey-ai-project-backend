@@ -1,26 +1,53 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateMenuPermissionDto } from './dto/create-menu-permission.dto';
 import { UpdateMenuPermissionDto } from './dto/update-menu-permission.dto';
+import { MenuPermission } from './entities/menu-permission.entity';
 
 @Injectable()
 export class MenuPermissionService {
-  create(createMenuPermissionDto: CreateMenuPermissionDto) {
-    return 'This action adds a new menuPermission';
+  constructor(
+    @InjectRepository(MenuPermission)
+    private readonly menuPermissionRepository: Repository<MenuPermission>,
+  ) {}
+
+  async create(
+    createMenuPermissionDto: CreateMenuPermissionDto,
+  ): Promise<MenuPermission> {
+    const menuPermission = this.menuPermissionRepository.create(
+      createMenuPermissionDto,
+    );
+    return this.menuPermissionRepository.save(menuPermission);
   }
 
-  findAll() {
-    return `This action returns all menuPermission`;
+  async findAll(): Promise<MenuPermission[]> {
+    return this.menuPermissionRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} menuPermission`;
+  async findOne(id: any): Promise<MenuPermission> {
+    const menuPermission = await this.menuPermissionRepository.findOne({
+      where: { id },
+    });
+    if (!menuPermission) {
+      throw new Error(`MenuPermission with id ${id} not found`);
+    }
+    return menuPermission;
   }
 
-  update(id: number, updateMenuPermissionDto: UpdateMenuPermissionDto) {
-    return `This action updates a #${id} menuPermission`;
+  async update(
+    id: any,
+    updateMenuPermissionDto: UpdateMenuPermissionDto,
+  ): Promise<MenuPermission> {
+    await this.menuPermissionRepository.update(id, updateMenuPermissionDto);
+    const menuPermission = await this.menuPermissionRepository.findOne({ where: { id } });
+    if (!menuPermission) {
+      throw new Error(`MenuPermission with id ${id} not found`);
+    }
+    return menuPermission;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} menuPermission`;
+  async remove(id: number): Promise<void> {
+    await this.menuPermissionRepository.delete(id);
   }
 }

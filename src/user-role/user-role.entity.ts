@@ -1,27 +1,28 @@
-import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+
 export enum Status {
   TRUE = 1,
   FALSE = 0,
 }
 
-@Entity({ name: 'roles' })
-export class Role {
+@Entity({ name: 'user_roles' })
+export class UserRole {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('varchar', { length: 225 })
-  name: string;
+  @Column('int', { width: 5 })
+  userId: number;
 
-  @Column('int', { width: 5, default: 0 })
-  sort: number;
+  @Column('int', { width: 5 })
+  roleId: number;
 
-  @Column('int', { width: 5, default: 0 })
+  @Column('int', { width: 5 })
   created_by: number;
 
-  @Column('int', { width: 5, default: 0 })
+  @Column('int', { width: 5, nullable: true })
   updated_by: number;
 
-  @Column('int', { width: 5, default: 0 })
+  @Column('int', { width: 5, nullable: true })
   deleted_by: number;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

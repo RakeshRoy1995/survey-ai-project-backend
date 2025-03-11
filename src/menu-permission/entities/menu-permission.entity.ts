@@ -1,49 +1,32 @@
-import {  PrimaryGeneratedColumn, Column } from "typeorm"
+import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
 export enum Status {
-    TRUE = 1,
-    FALSE = 0,
+  TRUE = 1,
+  FALSE = 0,
 }
+@Entity({ name: 'menu_permissions' })
 export class MenuPermission {
-    @PrimaryGeneratedColumn()
-    id: number
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column("int", { width: 5 })
-    layer_id: number
+  @Column('int', { width: 5 })
+  layer_id: number;
 
-    @Column("int", { width: 5 })
-    role_id: number
+  @Column('int', { width: 5 })
+  role_id: number;
 
-    @Column("int", { width: 5 })
-    menu_id: number
+  @Column('int', { width: 5 })
+  menu_id: number;
 
-    @Column("varchar", { length: 225 })
-    permitted_route: string
+  @Column('int', { width: 5, nullable: true })
+  created_by: number;
 
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  created_at: Date;
 
-
-
-    @Column("int", { width: 5 }) 
-    created_by: number
-
-    @Column("int", { width: 5 }) 
-    updated_by: number
-
-    @Column("int", { width: 5 }) 
-    deleted_by: number
-
-    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-    created_at: Date
-
-    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
-    updated_at: Date
-
-    @Column("datetime", { nullable: true })
-    deleted_at: Date
-
-    @Column({
-        type: "enum",
-        enum: Status,
-        default: Status.TRUE,
-    })
-    status: Status
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
+  updated_at: Date;
 }
