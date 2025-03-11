@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken'
+import { JWT_EXPIRATION, JWT_SECRET } from '../config';
 @Injectable()
 export class AuthService {
   constructor(private jwtService: JwtService) {}
@@ -17,12 +18,13 @@ export class AuthService {
   generateToken(user: any) {
     
     const payload = { sub: user.id, username: user.username };
-    if (!process.env.JWT_SECRET) {
+    if (!JWT_SECRET) {
       throw new Error('JWT_SECRET is not defined');
     }
-    return jwt.sign(payload, process.env.JWT_SECRET, {
+    return jwt.sign(payload, JWT_SECRET, {
       algorithm: 'HS256',
-      expiresIn: process.env.JWT_EXPIRATION,
+      expiresIn: 
+      JWT_EXPIRATION,
     });
   }
 }

@@ -17,6 +17,7 @@ import { JwtService } from './jwt/jwt.service';
 import { PickService } from './pick/pick.service';
 import { CommonModule } from './common/common.module';
 import { LogRequestMiddleware } from './log-request.middleware';
+import { DB_HOST, DB_NAME, DB_PASSWORD, DB_USER } from './config';
 @Module({
   imports: [
     UsersModule,
@@ -68,11 +69,11 @@ export class AppModule {
           // password: '##Roy1019876*',
           // database: 'nestjs_db',
 
-          host: 'localhost',
+          host: DB_HOST,
           port: 3306,
-          username: 'root',
-          password: '',
-          database: 'survey-project',
+          username: DB_USER,
+          password: DB_PASSWORD,
+          database: DB_NAME,
 
           entities: [__dirname + '/**/*.entity{.ts,.js}'],
           autoLoadEntities: true,

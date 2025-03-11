@@ -6,14 +6,15 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
 import { UsersModule } from '../users/users.module';
 import { PickService } from '../pick/pick.service';
+import { JWT_EXPIRATION, JWT_SECRET } from '../config';
 
 @Module({
   imports: [
     PassportModule,
     forwardRef(() => UsersModule),
     JwtModule.register({
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: process.env.JWT_EXPIRATION ||  '1h' },
+      secret: JWT_SECRET,
+      signOptions: { expiresIn: JWT_EXPIRATION ||  '1h' },
     }),
   ],
   controllers: [AuthController], // Ensure AuthController is here
