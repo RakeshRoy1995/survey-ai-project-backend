@@ -17,6 +17,11 @@ export class UserRoleController {
     return this.userRoleService.findAll();
   }
 
+  @Get('/user/:id')
+  findRoleByUser(@Param('id') id: string) {
+    return this.userRoleService.findRoleByUser(+id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userRoleService.findOne(+id);

@@ -18,6 +18,9 @@ import { PickService } from './pick/pick.service';
 import { CommonModule } from './common/common.module';
 import { LogRequestMiddleware } from './log-request.middleware';
 import { DB_HOST, DB_NAME, DB_PASSWORD, DB_USER } from './config';
+import { PhaseModule } from './phase/phase.module';
+import { BlockModule } from './block/block.module';
+import { QuestionModule } from './question/question.module';
 @Module({
   imports: [
     UsersModule,
@@ -29,6 +32,9 @@ import { DB_HOST, DB_NAME, DB_PASSWORD, DB_USER } from './config';
     UserRoleModule,
     AuthModule,
     CommonModule,
+    PhaseModule,
+    BlockModule,
+    QuestionModule,
   ],
   providers: [JwtService, PickService],
 })

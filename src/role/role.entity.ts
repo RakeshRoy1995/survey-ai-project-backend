@@ -1,4 +1,5 @@
-import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
+import { UserRole } from 'src/user-role/user-role.entity';
+import { PrimaryGeneratedColumn, Column, Entity, OneToMany } from 'typeorm';
 export enum Status {
   TRUE = 1,
   FALSE = 0,
@@ -43,4 +44,7 @@ export class Role {
     default: Status.TRUE,
   })
   status: Status;
+
+  @OneToMany(() => UserRole, (userRole) => userRole.roleId)
+  userRoles: UserRole[];
 }
