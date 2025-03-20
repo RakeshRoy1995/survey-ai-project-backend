@@ -18,6 +18,7 @@ export class QuestionService {
   }
 
   async findAll(): Promise<Question[]> {
+    
     return this.questionRepository.find();
   }
 
