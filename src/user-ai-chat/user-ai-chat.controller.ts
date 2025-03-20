@@ -17,6 +17,11 @@ export class UserAiChatController {
     return this.userAiChatService.findAll();
   }
 
+  // @Get('userId/:userId/blockId/:blockId')
+  // findByUserBlockID(@Param('id') id: string) {
+  //   return this.userAiChatService.findOne(+id);
+  // }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userAiChatService.findOne(+id);
