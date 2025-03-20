@@ -1,10 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-export enum Question {
-  TRUE = 1,
-  FALSE = 0,
-}
+
 @Entity({ name: 'questions' })
-export class Block {
+export class Question {
   @PrimaryGeneratedColumn()
   id: number;
 
