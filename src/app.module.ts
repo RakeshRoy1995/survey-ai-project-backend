@@ -21,6 +21,7 @@ import { DB_HOST, DB_NAME, DB_PASSWORD, DB_USER } from './config';
 import { PhaseModule } from './phase/phase.module';
 import { BlockModule } from './block/block.module';
 import { QuestionModule } from './question/question.module';
+import { UserAiChatModule } from './user-ai-chat/user-ai-chat.module';
 @Module({
   imports: [
     UsersModule,
@@ -35,6 +36,7 @@ import { QuestionModule } from './question/question.module';
     PhaseModule,
     BlockModule,
     QuestionModule,
+    UserAiChatModule,
   ],
   providers: [JwtService, PickService],
 })
