@@ -17,10 +17,21 @@ export class UserAiChatController {
     return this.userAiChatService.findAll();
   }
 
-  // @Get('userId/:userId/blockId/:blockId')
-  // findByUserBlockID(@Param('id') id: string) {
-  //   return this.userAiChatService.findOne(+id);
-  // }
+  @Get('userId/:userId/blockId/:blockId')
+  findByUserBlockID(
+    @Param('userId') userId: string,
+    @Param('blockId') blockId: string,
+  ) {
+    return this.userAiChatService.findByUserBlockID(+userId, +blockId);
+  }
+
+  @Get('userId/:userId/phaseId/:phaseId')
+  findByUserPhaseID(
+    @Param('userId') userId: string,
+    @Param('phaseId') phaseId: string,
+  ) {
+    return this.userAiChatService.findByUserPhaseID(+userId, +phaseId);
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
