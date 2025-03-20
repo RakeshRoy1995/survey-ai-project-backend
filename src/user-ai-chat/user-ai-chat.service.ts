@@ -43,14 +43,15 @@ export class UserAiChatService {
     phaseId: number,
   ): Promise<UserAiChat[]> {
     const result = await this.dataSource.query(
-      `SELECT  t1.yourMessage , t1.aiReply , t1.saved , t2.question , t3.name as block_name
+      `SELECT  t1.yourMessage , t1.aiReply , t1.saved , t3.phaseId, t2.question , t3.name as block_name
        FROM useraichats t1
        JOIN questions t2 ON t1.question_id = t2.id
        JOIN blocks t3 ON t3.id = t2.blockId
-       JOIN phases t4 ON t4.id = t3.phaseId 
        WHERE t1.userId = ? and t3.phaseId = ?`,
       [userId, phaseId],
     );
+
+    console.log(`result`, result);
     return result;
   }
 
