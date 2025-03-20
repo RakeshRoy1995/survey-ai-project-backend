@@ -4,6 +4,7 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import cluster from 'node:cluster'; // ✅ Correct import
 import os from 'node:os';
 import { JwtExpiredExceptionFilter } from './jwt/jwt-exception.filter';
+import { PORT } from './config';
 
 async function bootstrap() {
   // Check if `cluster` is undefined (for debugging)
@@ -34,7 +35,7 @@ async function bootstrap() {
     app.useGlobalPipes(new ValidationPipe());
     app.useGlobalFilters(new JwtExpiredExceptionFilter());
     app.enableCors();
-    await app.listen(3000, '0.0.0.0');
+    await app.listen(PORT, '0.0.0.0');
     Logger.log(`Worker ${process.pid} started`);
   }
 }

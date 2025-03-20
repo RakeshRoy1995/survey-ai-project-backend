@@ -1,6 +1,6 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { createUserDto } from './dto/create-user.dto';
 import { updateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
@@ -9,6 +9,7 @@ import { User } from './entities/user.entity';
 export class UsersService {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
+    private readonly dataSource: DataSource,
   ) {}
 
   //  create a new user
@@ -46,14 +47,18 @@ export class UsersService {
 
   //  get user by email
   async getUserByEmail(email: string) {
-    console.log(`email`, email);
-    const userFound = await this.usersRepository.findOne({
-      where: { email: email },
-    });
+    const userFound = await this.dataSource.query(
+      `SELECT r.*,  ur.roleId
+       FROM user_roles ur
+       JOIN users r ON ur.userId = r.id
+       WHERE r.email = ?`,
+      [email],
+    );
+
     if (!userFound) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
-    return userFound;
+    return userFound[0];
   }
 
   // delete user by id

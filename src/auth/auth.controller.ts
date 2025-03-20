@@ -47,8 +47,14 @@ export class AuthController {
       token_type: 'Bearer',
       access_token: await this.authService.generateToken(mockUser),
     }
-
-    return this.pickService.pick(res, ['username', 'email', 'access_token' , 'token_type', 'id' , 'status']);
-
+    return this.pickService.pick(res, [
+      'username',
+      'email',
+      'access_token',
+      'token_type',
+      'id',
+      'status',
+      'roleId',
+    ]);
   }
 }
