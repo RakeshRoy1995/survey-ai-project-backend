@@ -47,3 +47,19 @@ JOIN
 JOIN 
     blocks t3 ON t3.id = t2.blockId;
 
+
+
+
+
+
+
+
+
+
+    ALTER TABLE `phases` ADD `sort` INT(5) NOT NULL DEFAULT '1' AFTER `discription`, ADD `img` VARCHAR(225) NOT NULL AFTER `sort`, ADD `color` VARCHAR(225) NOT NULL AFTER `img`;
+    ALTER TABLE `phases` ADD `prompt` VARCHAR(500) NULL AFTER `discription`;
+
+    ALTER TABLE `phases` CHANGE `img` `img` VARCHAR(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, CHANGE `color` `color` VARCHAR(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL;
+
+    
+
