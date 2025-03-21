@@ -17,6 +17,19 @@ export class Block {
   @Column({ type: 'int', width: 5 })
   phaseId: number;
 
+  @Column('int', { width: 5, default:1 })
+  sort: number;
+
+  @Column({ type: 'varchar', length: 100, default: null })
+  img: string;
+
+  @Column({ type: 'varchar', length: 50, default: null })
+  color: string;
+
+  @Column('int', { width: 5, default: 1 })
+  status: number;
+
+
   @Column('int', { width: 5, nullable: true })
   created_by: number;
 

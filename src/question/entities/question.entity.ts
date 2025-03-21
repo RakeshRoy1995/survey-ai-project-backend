@@ -11,6 +11,18 @@ export class Question {
   @Column({ type: 'int', width: 5 })
   blockId: number;
 
+
+  @Column({ type: 'varchar', length: 1500 })
+  prompt: string;
+
+  @Column('int', { width: 5, default:1 })
+  sort: number;
+
+  @Column('int', { width: 5, default:1 })
+  status: number;
+
+
+
   @Column('int', { width: 5, nullable: true })
   created_by: number;
 
