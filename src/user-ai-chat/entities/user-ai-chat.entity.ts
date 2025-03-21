@@ -11,14 +11,14 @@ export class UserAiChat {
   @Column('int')
   question_id: number;
 
-  @Column({ type: 'varchar', length: 1500 })
-  yourMessage: string;
+  @Column({ type: 'varchar', length: 100 })
+  conversetion_id: string;
 
-  @Column({ type: 'varchar', length: 1500 })
+  @Column({ type: 'varchar', length: 5000 })
   aiReply: string;
 
   @Column({ type: 'int', default: 1 })
-  saved: boolean;
+  status: boolean;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
