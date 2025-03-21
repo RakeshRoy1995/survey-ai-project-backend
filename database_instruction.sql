@@ -24,3 +24,26 @@ FROM
 
   // create indexing for user_id
   CREATE INDEX idx_user_id ON users (id);
+
+
+
+
+
+CREATE VIEW user_chat_view AS
+SELECT  
+    t1.yourMessage, 
+    t1.aiReply, 
+    t1.userId, 
+    t1.saved, 
+    t2.blockId, 
+    t3.phaseId, 
+    t2.question, 
+    t1.question_id
+    t3.name AS block_name
+FROM 
+    useraichats t1
+JOIN 
+    questions t2 ON t1.question_id = t2.id
+JOIN 
+    blocks t3 ON t3.id = t2.blockId;
+
