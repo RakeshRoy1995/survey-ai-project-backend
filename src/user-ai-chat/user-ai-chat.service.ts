@@ -15,8 +15,29 @@ export class UserAiChatService {
   ) {}
 
   async create(createUserAiChatDto: CreateUserAiChatDto): Promise<UserAiChat> {
-    const userAiChat = this.userAiChatRepository.create(createUserAiChatDto);
-    return this.userAiChatRepository.save(userAiChat);
+    const existingRecord = await this.userAiChatRepository.findOne({
+      where: {
+        userId: createUserAiChatDto.userId,
+        question_id: createUserAiChatDto.question_id,
+      },
+    });
+
+    if (existingRecord) {
+      await this.userAiChatRepository.update(
+        existingRecord.id,
+        createUserAiChatDto,
+      );
+      const updatedRecord = await this.userAiChatRepository.findOneBy({
+        id: existingRecord.id,
+      });
+      if (!updatedRecord) {
+        throw new NotFoundException('UserAiChat not found after update');
+      }
+      return updatedRecord;
+    } else {
+      const userAiChat = this.userAiChatRepository.create(createUserAiChatDto);
+      return this.userAiChatRepository.save(userAiChat);
+    }
   }
 
   async findAll(): Promise<UserAiChat[]> {
@@ -28,12 +49,10 @@ export class UserAiChatService {
     blockId: number,
   ): Promise<UserAiChat[]> {
     const result = await this.dataSource.query(
-      `SELECT  t1.yourMessage , t1.aiReply , t1.saved , t2.question , t3.name as block_name
-       FROM useraichats t1
-       JOIN questions t2 ON t1.question_id = t2.id
-       JOIN blocks t3 ON t3.id = t2.blockId
-       WHERE t2.blockId = ? and t1.userId = ?`,
-      [blockId, userId],
+      `SELECT * 
+      FROM user_chat_view 
+      WHERE userId = ? and blockId = ?`,
+      [userId, blockId],
     );
     return result;
   }
@@ -43,14 +62,13 @@ export class UserAiChatService {
     phaseId: number,
   ): Promise<UserAiChat[]> {
     const result = await this.dataSource.query(
-      `SELECT  t1.yourMessage , t1.aiReply , t1.saved , t2.question , t3.name as block_name
-       FROM useraichats t1
-       JOIN questions t2 ON t1.question_id = t2.id
-       JOIN blocks t3 ON t3.id = t2.blockId
-       JOIN phases t4 ON t4.id = t3.phaseId 
-       WHERE t1.userId = ? and t3.phaseId = ?`,
-      [userId, phaseId],
+      `SELECT * 
+      FROM user_chat_view 
+      WHERE userId = ? and phaseId = ?`,
+      [userId , phaseId],
     );
+
+    console.log(`result`, result, userId);
     return result;
   }
 
