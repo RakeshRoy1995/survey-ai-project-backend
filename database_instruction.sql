@@ -27,18 +27,20 @@ FROM
 
 
 
-
+DROP VIEW IF EXISTS user_chat_view;
 
 CREATE VIEW user_chat_view AS
 SELECT  
-    t1.yourMessage, 
     t1.aiReply, 
     t1.userId, 
-    t1.saved, 
+    t1.status, 
     t2.blockId, 
+    t2.sort as ques_sort, 
+    t3.sort as block_sort, 
     t3.phaseId, 
     t2.question, 
-    t1.question_id
+    t1.question_id,
+    t1.conversetion_id,
     t3.name AS block_name
 FROM 
     useraichats t1
@@ -53,13 +55,4 @@ JOIN
 
 
 
-
-
-
-    ALTER TABLE `phases` ADD `sort` INT(5) NOT NULL DEFAULT '1' AFTER `discription`, ADD `img` VARCHAR(225) NOT NULL AFTER `sort`, ADD `color` VARCHAR(225) NOT NULL AFTER `img`;
-    ALTER TABLE `phases` ADD `prompt` VARCHAR(500) NULL AFTER `discription`;
-
-    ALTER TABLE `phases` CHANGE `img` `img` VARCHAR(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, CHANGE `color` `color` VARCHAR(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL;
-
-    
 
