@@ -32,8 +32,3 @@ export {
 // const DB_USER = 'applicationUser';
 // const DB_PASSWORD = 'Admin@45321#';
 // const DB_NAME = 'tial-dev';
-
-
-const JWT_SECRET = '8049076547aa00ca9da1b553f77f79acc9c601cd55e0777b515808e9534a9ed5';
-const JWT_EXPIRATION = '24h';
-
