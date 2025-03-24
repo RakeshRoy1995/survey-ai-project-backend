@@ -57,4 +57,21 @@ export class AuthController {
       'roleId',
     ]);
   }
+
+  @Post('signup')
+  async signup(@Body() body: { username: string; password: string; email: string; roleId: number }) {
+    const userExists = await this.usersService.getUserByEmail(body.email);
+    if (userExists) {
+      throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
+    }
+
+    const newUser = await this.usersService.createUser({
+      username: body.username,
+      password: await this.authService.hashPassword(body.password),
+      email: body.email,
+    });
+
+    await this.usersService.assignRole(newUser.id, body.roleId);
+    return newUser
+  }
 }
