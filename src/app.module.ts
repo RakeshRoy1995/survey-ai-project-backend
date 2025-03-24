@@ -22,6 +22,7 @@ import { PhaseModule } from './phase/phase.module';
 import { BlockModule } from './block/block.module';
 import { QuestionModule } from './question/question.module';
 import { UserAiChatModule } from './user-ai-chat/user-ai-chat.module';
+import { PhasePromptModule } from './phase-prompt/phase-prompt.module';
 @Module({
   imports: [
     UsersModule,
@@ -37,6 +38,7 @@ import { UserAiChatModule } from './user-ai-chat/user-ai-chat.module';
     BlockModule,
     QuestionModule,
     UserAiChatModule,
+    PhasePromptModule,
   ],
   providers: [JwtService, PickService],
 })
