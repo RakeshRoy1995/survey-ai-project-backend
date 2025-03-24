@@ -25,7 +25,7 @@ export class PhaseController {
   }
 
   @Get('getBlockByPhaseId/:id')
-  getBlockByPhaseId(@Param('id') id: number): Promise<Phase> {
+  getBlockByPhaseId(@Param('id') id: any): Promise<any> {
     return this.phaseService.getBlockByPhase(id);
   }
 
@@ -44,3 +44,5 @@ export class PhaseController {
     return this.phaseService.remove(id);
   }
 }
+
+
