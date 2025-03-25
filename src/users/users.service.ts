@@ -72,6 +72,25 @@ export class UsersService {
     return userFound[0];
   }
 
+  // assign role to user
+  async assignRole(userId: number, roleId: number) {
+    const userFound = await this.usersRepository.findOne({
+      where: { id: userId },
+    });
+
+    if (!userFound) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    const query = `
+      INSERT INTO user_roles (userId, roleId)
+      VALUES (?, ?)
+    `;
+    await this.dataSource.query(query, [userId, roleId]);
+
+    return { message: 'Role assigned successfully' };
+  }
+
   // delete user by id
   async deleteUserById(id: number) {
     const result = await this.usersRepository.delete({ id });
