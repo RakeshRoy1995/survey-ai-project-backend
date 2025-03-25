@@ -24,9 +24,15 @@ export class UsersController {
     return this.usersService.getAllUsers();
   }
 
+  //   get all users
+  @Get('all-members')
+  user(): Promise<User[]> {
+    return this.usersService.getAllMember();
+  }
+
   // get user by id
   @Get(':id')
-  getUserById(@Param('id', ParseIntPipe) id: number){
+  getUserById(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.getUserById(id);
   }
 
@@ -52,11 +58,9 @@ export class UsersController {
 
 function hashPassword(password: string): string {
   try {
-    
     const salt = bcrypt.genSaltSync(10);
     return bcrypt.hashSync(password, salt);
   } catch (error) {
     throw new Error('Error generating salt for password hashing');
   }
 }
-
