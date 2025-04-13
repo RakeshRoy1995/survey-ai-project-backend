@@ -27,9 +27,20 @@ export class UsersService {
     return this.usersRepository.save(newUser);
   }
 
-  //   get all users
+  //get all users
   getAllUsers() {
     return this.usersRepository.find();
+  }
+
+  //get all Members
+  async getAllMember() {
+    const members = await this.dataSource.query(
+      `SELECT u.id, u.username, u.email, ur.roleId
+       FROM users u
+       JOIN user_roles ur ON u.id = ur.userId
+       WHERE ur.roleId = 5`,
+    );
+    return members;
   }
 
   //  get user by id
@@ -102,5 +113,6 @@ export class UsersService {
     const updateUser = Object.assign(userFound, user);
     return this.usersRepository.save(updateUser);
   }
-
 }
+
+
