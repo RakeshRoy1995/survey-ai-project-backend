@@ -25,6 +25,7 @@ import { UserAiChatModule } from './user-ai-chat/user-ai-chat.module';
 import { PhasePromptModule } from './phase-prompt/phase-prompt.module';
 import { SummaryOutputPhaseModule } from './summary-output-phase/summary-output-phase.module';
 import { UserAiChatHistoryModule } from './user_ai_chat_history/user_ai_chat_history.module';
+import { AiModelModule } from './ai-model/ai-model.module';
 @Module({
   imports: [
     UsersModule,
@@ -43,6 +44,7 @@ import { UserAiChatHistoryModule } from './user_ai_chat_history/user_ai_chat_his
     PhasePromptModule,
     SummaryOutputPhaseModule,
     UserAiChatHistoryModule,
+    AiModelModule,
   ],
   providers: [JwtService, PickService],
 })
