@@ -4,12 +4,15 @@ import { Repository } from 'typeorm';
 import { CreateSummaryOutputPhaseDto } from './dto/create-summary-output-phase.dto';
 import { UpdateSummaryOutputPhaseDto } from './dto/update-summary-output-phase.dto';
 import { SummaryOutputPhase } from './entities/summary-output-phase.entity';
+import { SummaryOutputPhaseHistory } from './entities/summary-output-phase-history.entity';
 
 @Injectable()
 export class SummaryOutputPhaseService {
   constructor(
     @InjectRepository(SummaryOutputPhase)
     private summaryOutputPhaseRepository: Repository<SummaryOutputPhase>,
+    @InjectRepository(SummaryOutputPhaseHistory)
+    private summaryOutputPhaseHistoryRepository: Repository<SummaryOutputPhaseHistory>,
   ) {}
 
   async create(
@@ -24,6 +27,7 @@ export class SummaryOutputPhaseService {
     const summaryOutputPhase = this.summaryOutputPhaseRepository.create(
       createSummaryOutputPhaseDto,
     );
+    await this.summaryOutputPhaseHistoryRepository.save(summaryOutputPhase);
     return this.summaryOutputPhaseRepository.save(summaryOutputPhase);
   }
 
@@ -53,6 +57,9 @@ export class SummaryOutputPhaseService {
     if (!summaryOutputPhase) {
       throw new Error(`SummaryOutputPhase with id ${id} not found`);
     }
+    await this.summaryOutputPhaseHistoryRepository.save(
+      updateSummaryOutputPhaseDto,
+    );
     return summaryOutputPhase;
   }
 

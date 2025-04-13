@@ -6,12 +6,15 @@ import { CreateUserAiChatDto } from './dto/create-user-ai-chat.dto';
 import { UpdateUserAiChatDto } from './dto/update-user-ai-chat.dto';
 import { UserAiChat } from './entities/user-ai-chat.entity';
 import { UserChatView } from './entities/user-chat-view.entity';
+import { UserAiChatHistory } from './entities/user_ai_chat_history.entity';
 
 @Injectable()
 export class UserAiChatService {
   constructor(
     @InjectRepository(UserAiChat)
     private readonly userAiChatRepository: Repository<UserAiChat>,
+    @InjectRepository(UserAiChatHistory)
+    private readonly userAiChatHistoryRepository: Repository<UserAiChatHistory>,
     private readonly dataSource: DataSource,
     @InjectRepository(UserChatView)
     private readonly userChatViewRepository: Repository<UserChatView>,
@@ -63,9 +66,11 @@ export class UserAiChatService {
       if (!updatedRecord) {
         throw new NotFoundException('UserAiChat not found after update');
       }
+      await this.userAiChatHistoryRepository.save(createUserAiChatDto);
       return updatedRecord;
     } else {
       const userAiChat = this.userAiChatRepository.create(createUserAiChatDto);
+      await this.userAiChatHistoryRepository.save(userAiChat);
       return this.userAiChatRepository.save(userAiChat);
     }
   }
