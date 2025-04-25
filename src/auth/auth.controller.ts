@@ -36,10 +36,16 @@ export class AuthController {
       );
 
       if (!passMatch) {
-        throw new HttpException('Password Mismatched', HttpStatus.NOT_FOUND);
+        const res = {
+          message : 'Password Mismatched'
+        }
+        return res;
       }
     }else{
-      throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
+      const res = {
+        message : 'User Not Found'
+      }
+      return res;
     }
 
     const res: authDto = {
