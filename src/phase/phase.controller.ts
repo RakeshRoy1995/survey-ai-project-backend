@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { PhaseService } from './phase.service';
 import { Phase } from './entities/phase.entity';
+import { GetBlockDto } from './dto/get-block.dto';
 
 @Controller('phases')
 export class PhaseController {
@@ -17,6 +18,16 @@ export class PhaseController {
   @Post()
   create(@Body() phase: Phase): Promise<Phase> {
     return this.phaseService.create(phase);
+  }
+
+  @Post('get-block-by-phaseid')
+  getBlockByPhaseID(@Body() phase: GetBlockDto): Promise<Phase[]> {
+    return this.phaseService.getBlockByPhaseID(phase);
+  }
+
+  @Post('get-question-by-phaseid')
+  getQuestionByPhaseID(@Body() phase: GetBlockDto): Promise<Phase[]> {
+    return this.phaseService.getQuestionByPhaseID(phase);
   }
 
   @Get()
