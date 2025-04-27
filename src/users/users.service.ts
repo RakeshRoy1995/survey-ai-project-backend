@@ -4,6 +4,7 @@ import { Repository, DataSource } from 'typeorm';
 import { createUserDto } from './dto/create-user.dto';
 import { updateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import { GetBlockDto } from 'src/phase/dto/get-block.dto';
 
 @Injectable()
 export class UsersService {
@@ -31,6 +32,20 @@ export class UsersService {
   getAllUsers() {
     return this.usersRepository.find();
   }
+
+  // memberDetailsProgress(createMenuDto: GetBlockDto): Promise<Phase[]> {
+  //   // const userId = createMenuDto.userId; // Ensure phase_id exists in CreatePhaseDto
+    
+  //   const members = await this.dataSource.query(
+  //     `SELECT u.id, u.username, u.email, ur.roleId
+  //      FROM users u
+  //      JOIN user_roles ur ON u.id = ur.userId
+  //      WHERE ur.roleId = 5`,
+  //   );
+  //   return members;
+
+
+  // }
 
   //get all Members
   async getAllMember() {
@@ -103,6 +118,7 @@ export class UsersService {
 
   // update user by id
   async updateUserById(id: number, user: updateUserDto) {
+    
     const userFound = await this.usersRepository.findOne({
       where: { id },
     });
@@ -110,9 +126,6 @@ export class UsersService {
       return new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    const updateUser = Object.assign(userFound, user);
-    return this.usersRepository.save(updateUser);
+    return await this.usersRepository.update(id, user);
   }
 }
-
-

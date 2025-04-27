@@ -30,6 +30,11 @@ export class PhaseController {
     return this.phaseService.getQuestionByPhaseID(phase);
   }
 
+  @Post('get-phase-output-by-phaseid')
+  getPhaseOutputByPhaseID(@Body() phase: GetBlockDto): Promise<Phase[]> {
+    return this.phaseService.getPhaseOutputByPhaseID(phase);
+  }
+
   @Get()
   findAll(): Promise<Phase[]> {
     return this.phaseService.findAll();

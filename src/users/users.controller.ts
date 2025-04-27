@@ -43,6 +43,11 @@ export class UsersController {
     return this.usersService.createUser(newUser);
   }
 
+  // @Post('member-details-progress')
+  //   memberDetailsProgress(@Body() phase: createUserDto): Promise<Phase[]> {
+  //     return this.usersService.memberDetailsProgress(phase);
+  // }
+
   //  delete user by id
   @Delete(':id')
   deleteUserById(@Param('id') id: number) {

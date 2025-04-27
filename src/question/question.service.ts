@@ -32,11 +32,8 @@ export class QuestionService {
 
   async update(id: any, updateQuestionDto: UpdateQuestionDto): Promise<Question> {
     await this.questionRepository.update(id, { ...updateQuestionDto });
-    const question = await this.questionRepository.findOne(id);
-    if (!question) {
-      throw new Error(`Question with id ${id} not found`);
-    }
-    return question;
+    return this.findOne(id);
+ 
   }
 
   async remove(id: number): Promise<void> {

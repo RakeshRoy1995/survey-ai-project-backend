@@ -45,9 +45,21 @@ export class PhaseService {
         'question.blockId',
         'question.question',
         'block.name as blockName',
+        'question.status as status',
+        'question.sort',
+        'block.phaseId as phaseId',
       ])
       .where('block.phaseId = :phaseId', { phaseId })
       .getRawMany();
+  }
+
+  async getPhaseOutputByPhaseID(createMenuDto: GetBlockDto): Promise<Phase[]> {
+    const phaseId = createMenuDto.phase_id; // Ensure phase_id exists in CreatePhaseDto
+    const sql = `SELECT *  FROM user_chat_view ucv where ucv.phaseId = ${phaseId}`;
+
+    console.log(`sql`, sql);
+    const members = await this.dataSource.query(sql);
+    return members;
   }
 
   async findAll(): Promise<Phase[]> {
@@ -68,7 +80,7 @@ export class PhaseService {
        FROM phases t1
        JOIN blocks t2 ON t1.id = t2.phaseId
        WHERE t2.phaseId = ?`,
-      [id]
+      [id],
     );
     return result;
   }
@@ -78,7 +90,6 @@ export class PhaseService {
   }
 
   async remove(id: number): Promise<void> {
-
     console.log('DELTE ID', id);
     await this.phaseRepository.delete(id);
   }
