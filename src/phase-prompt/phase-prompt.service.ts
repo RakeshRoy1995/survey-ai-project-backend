@@ -12,9 +12,21 @@ export class PhasePromptService {
     private readonly phasePromptRepository: Repository<PhasePrompt>,
   ) {}
 
-  async create(createPhasePromptDto: CreatePhasePromptDto): Promise<PhasePrompt> {
+  async create(
+    createPhasePromptDto: CreatePhasePromptDto,
+  ): Promise<PhasePrompt> {
     const phasePrompt = this.phasePromptRepository.create(createPhasePromptDto);
     return this.phasePromptRepository.save(phasePrompt);
+  }
+
+  async findByPhaseId(
+    createPhasePromptDto: CreatePhasePromptDto,
+  ): Promise<PhasePrompt[]> {
+    const { phaseId } = createPhasePromptDto;
+    return await this.phasePromptRepository.find({
+      where: { phaseId },
+      take: 5,
+    });
   }
 
   async findAll(): Promise<PhasePrompt[]> {
@@ -33,14 +45,19 @@ export class PhasePromptService {
     return this.phasePromptRepository.find({ where: { phaseId } });
   }
 
-  async update(id: any, updatePhasePromptDto: UpdatePhasePromptDto): Promise<PhasePrompt> {
-    await this.phasePromptRepository.update(id, updatePhasePromptDto);
-    const phasePrompt = await this.phasePromptRepository.findOne(id);
-    if (!phasePrompt) {
+  async update(id: number, updatePhasePromptDto: UpdatePhasePromptDto): Promise<PhasePrompt> {
+    const updatedPhasePrompt = await this.phasePromptRepository.findOne({
+      where: { id },
+    });
+  
+    if (!updatedPhasePrompt) {
       throw new Error(`PhasePrompt with id ${id} not found`);
     }
-    return phasePrompt;
+    await this.phasePromptRepository.update(id, updatePhasePromptDto);
+  
+    return updatedPhasePrompt;
   }
+  
 
   async remove(id: number): Promise<void> {
     await this.phasePromptRepository.delete(id);
